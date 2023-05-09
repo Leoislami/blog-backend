@@ -2,27 +2,26 @@
 
 <br />
 <div align="center"> 
-<img src="src/main/resources/backend.jpg" alt="Logo">
+<img src="src/main/resources/backend-development.jpeg" alt="Logo">
 </div>
 
-An der HFTM in Grenchen habe ich momentan den Kurs Verteilte Systeme hier bekomme ich gerlernt wie man ein Backend-Blog System entwickelt.
+Currently, at HFTM in Grenchen, I am attending the Distributed Systems course, where I am learning how to develop a backend blog system.
 
-<!-- INHALTSVERZEICHNIS -->
+<!-- Table of Contents -->
 <details>
-  <summary><bold>Inhaltsverzeichnis<bold></summary>
+  <summary><bold>Table of Contents<bold></summary>
   <ol>
-    <li><a href="#Einleitung">Einleitung</a></li>
+    <li><a href="#Introduction">Introduction</a></li>
 
   </ol>
 </details>
 
  -------------------------------------------------------------------------------------------------------
- ## Einleitung
+ ## Introduction
 
 
-Willkommen zu diesem Beispielprojekt für einen Blog-Backend-Service, der mit Quarkus und RESTEasy Reactive implementiert wurde. In diesem Projekt haben ich eine RESTful-Schnittstelle erstellt, über die Blog-Posts verwaltet werden können.
+Welcome to this example project for a blog backend service, implemented with Quarkus and RESTEasy Reactive. In this project, I have created a RESTful interface through which blog posts can be managed.
 
-Um das Projekt zu starten, müssen Sie das Repository klonen und im Terminal zum Projektordner navigieren. Dort geben Sie das Kommando ./mvnw quarkus:dev ein, um den Service im Entwicklungsmodus zu starten. Wenn alles korrekt konfiguriert ist, sollte der Service unter http://localhost:8080 erreichbar sein.
-
+To start the project, you need to clone the repository and navigate to the project folder in the terminal. There, enter the command ./mvnw quarkus:dev to start the service in development mode. If everything is configured correctly, the service should be accessible at http://localhost:8080.
 
  -------------------------------------------------------------------------------------------------------
