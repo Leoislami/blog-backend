@@ -1,16 +1,16 @@
-package ch.hftm;
+package ch.hftm.Blog;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
-import ch.hftm.control.AuthorService;
-import ch.hftm.control.CommentService;
-import ch.hftm.control.EntryService;
-import ch.hftm.entity.Author;
-import ch.hftm.entity.Comment;
-import ch.hftm.entity.Entry;
+import ch.hftm.blog.control.AuthorService;
+import ch.hftm.blog.control.CommentService;
+import ch.hftm.blog.control.EntryService;
+import ch.hftm.blog.entity.Author;
+import ch.hftm.blog.entity.Comment;
+import ch.hftm.blog.entity.Entry;
 
 
 @QuarkusTest

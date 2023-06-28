@@ -26,7 +26,7 @@ Welcome to this example project for a blog backend service, implemented with Qua
 To start the project, you need to clone the repository and navigate to the project folder in the terminal. There, enter the command ./mvnw quarkus:dev to start the service in development mode. If everything is configured correctly, the service should be accessible at http://localhost:8080.
 
  -------------------------------------------------------------------------------------------------------
- ## Description
+ ## DescriDescription of Individual Filesption
 
  **Boundary**: 
 

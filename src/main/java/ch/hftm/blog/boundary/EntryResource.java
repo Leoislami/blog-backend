@@ -1,4 +1,4 @@
-package ch.hftm.boundary;
+package ch.hftm.blog.boundary;
 
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -6,8 +6,8 @@ import jakarta.ws.rs.core.Response;
 import jakarta.inject.Inject;
 import java.util.List;
 
-import ch.hftm.control.EntryService;
-import ch.hftm.entity.Entry;
+import ch.hftm.blog.control.EntryService;
+import ch.hftm.blog.entity.Entry;
 
 @Path("/entries")
 @Produces(MediaType.APPLICATION_JSON)
@@ -18,7 +18,7 @@ public class EntryResource {
     EntryService entryService;
 
     @GET
-    public Response getAllEntries() {
+    public Response getAllEntries(@QueryParam("name") String name) {
         List<Entry> entries = entryService.getEntrys();
         if (entries.isEmpty()) {
             return Response.status(Response.Status.NOT_FOUND).entity("No entries found.").build();
@@ -48,6 +48,7 @@ public class EntryResource {
 
     @PUT
     @Path("/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
     public Response updateEntry(@PathParam("id") Long id, Entry entry) {
         try {
             entryService.updateEntry(id, entry);

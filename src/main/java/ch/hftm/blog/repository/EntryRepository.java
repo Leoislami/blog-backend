@@ -1,9 +1,9 @@
-package ch.hftm.repository;
+package ch.hftm.blog.repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.hftm.entity.Entry;
+import ch.hftm.blog.entity.Entry;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 

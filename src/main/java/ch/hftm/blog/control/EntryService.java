@@ -1,16 +1,17 @@
-package ch.hftm.control;
+package ch.hftm.blog.control;
 
 import org.jboss.logging.Logger;
 
-import ch.hftm.entity.Entry;
-import ch.hftm.repository.EntryRepository;
+import ch.hftm.blog.entity.Entry;
+import ch.hftm.blog.repository.EntryRepository;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-@Dependent
+@ApplicationScoped
 public class EntryService {
     
     @Inject

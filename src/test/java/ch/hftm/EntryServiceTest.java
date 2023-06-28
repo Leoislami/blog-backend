@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
-import ch.hftm.control.EntryService;
-import ch.hftm.entity.Entry;
+import ch.hftm.blog.control.EntryService;
+import ch.hftm.blog.entity.Entry;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 

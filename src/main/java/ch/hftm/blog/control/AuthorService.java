@@ -1,17 +1,18 @@
-package ch.hftm.control;
+package ch.hftm.blog.control;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
 import org.jboss.logging.Logger;
 
-import ch.hftm.entity.Author;
-import ch.hftm.repository.AuthorRepository;
+import ch.hftm.blog.entity.Author;
+import ch.hftm.blog.repository.AuthorRepository;
 
 import java.util.List;
 
-@Dependent
+@ApplicationScoped
 public class AuthorService {
 
     @Inject

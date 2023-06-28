@@ -1,4 +1,4 @@
-package ch.hftm.entity;
+package ch.hftm.blog.entity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +40,7 @@ public class Entry {
     private Author author;
 
     @OneToMany(fetch = FetchType.EAGER)
+    // @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "entryId")
     public List<Comment> comments = new ArrayList<>();
 

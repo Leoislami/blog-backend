@@ -1,8 +1,7 @@
-package ch.hftm.boundary;
+package ch.hftm.blog.boundary;
 
-import ch.hftm.entity.Comment;
-import ch.hftm.control.CommentService;
-
+import ch.hftm.blog.control.CommentService;
+import ch.hftm.blog.entity.Comment;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;

@@ -1,17 +1,18 @@
-package ch.hftm.control;
+package ch.hftm.blog.control;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.jboss.logging.Logger;
 
-import ch.hftm.entity.Comment;
-import ch.hftm.repository.CommentRepository;
+import ch.hftm.blog.entity.Comment;
+import ch.hftm.blog.repository.CommentRepository;
 
 import java.util.List;
 import java.util.Optional;
 
-@Dependent
+@ApplicationScoped
 public class CommentService {
 
     @Inject

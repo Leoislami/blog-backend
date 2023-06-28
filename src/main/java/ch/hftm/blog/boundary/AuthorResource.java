@@ -1,8 +1,7 @@
-package ch.hftm.boundary;
+package ch.hftm.blog.boundary;
 
-import ch.hftm.entity.Author;
-import ch.hftm.control.AuthorService;
-
+import ch.hftm.blog.control.AuthorService;
+import ch.hftm.blog.entity.Author;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
