@@ -45,5 +45,4 @@ public class Entry {
     public List<Comment> comments = new ArrayList<>();
 
 
-
 }

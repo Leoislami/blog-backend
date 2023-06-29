@@ -1,13 +1,15 @@
 package ch.hftm.blog.control;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.jboss.logging.Logger;
 
 import ch.hftm.blog.entity.Comment;
+import ch.hftm.blog.exception.CommentNotFoundException;
+import ch.hftm.blog.exception.CommentNotUpdatedException;
 import ch.hftm.blog.repository.CommentRepository;
+import io.quarkus.panache.common.Page;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,9 +23,10 @@ public class CommentService {
     @Inject
     Logger logger;
 
-    public List<Comment> getComments() {
-        var comments = commentRepository.listAll();
-        logger.info("Returning " + comments.size() + " Comments");
+    public List<Comment> getComments(int offset, int limit) {
+        logger.info("Fetching comments with offset: " + offset + ", limit: " + limit);
+        var comments = commentRepository.findAll().page(Page.of(offset, limit)).list();
+        logger.info("Returning " + comments.size() + " comments");
         return comments;
     }
 
@@ -34,32 +37,32 @@ public class CommentService {
     }
 
     public Comment getComment(Long id) {
-        Optional<Comment> comment = commentRepository.findByIdOptional(id);
-        return comment.orElse(null);
+        return commentRepository.findByIdOptional(id)
+                .orElseThrow(() -> new CommentNotFoundException(id));
     }
 
     @Transactional
     public void updateComment(Long id, Comment commentDetails) {
-        Optional<Comment> optionalComment = commentRepository.findByIdOptional(id);
-        if(optionalComment.isPresent()) {
-            Comment comment = optionalComment.get();
-            comment.setContent(commentDetails.getContent());
-            commentRepository.persist(comment);
-            logger.info("Updated Comment with id " + id);
-        } else {
-            logger.info("Comment with id " + id + " not found");
-        }
+        Comment comment = commentRepository.findByIdOptional(id)
+                .orElseThrow(() -> new CommentNotUpdatedException(id));
+        comment.setContent(commentDetails.getContent());
+        commentRepository.persist(comment);
+        logger.info("Updated Comment with id " + id);
     }
 
-    @Transactional
+     @Transactional
     public void deleteComment(Long id) {
-        Optional<Comment> optionalComment = commentRepository.findByIdOptional(id);
-        if(optionalComment.isPresent()) {
-            Comment comment = optionalComment.get();
-            commentRepository.delete(comment);
-            logger.info("Deleted Comment with id " + id);
-        } else {
-            logger.info("Comment with id " + id + " not found");
-        }
+        Comment comment = commentRepository.findByIdOptional(id)
+                .orElseThrow(() -> new CommentNotFoundException(id));
+        commentRepository.delete(comment);
+        logger.info("Deleted Comment with id " + id);
+    }
+    
+
+    public List<Comment> findComments(String search, int offset, int limit) {
+        logger.info("Searching comments with query: " + search + ", offset: " + offset + ", limit: " + limit);
+        var comments = commentRepository.find("content like ?1", "%" + search + "%").page(Page.of(offset, limit)).list();
+        logger.info("Found " + comments.size() + " comments");
+        return comments;
     }
 }
