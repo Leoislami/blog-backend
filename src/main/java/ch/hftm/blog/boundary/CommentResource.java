@@ -6,6 +6,7 @@ import ch.hftm.blog.dtos.DtoMapper;
 import ch.hftm.blog.entity.Comment;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -61,7 +62,7 @@ public Response getComments(@QueryParam("search") String search, @QueryParam("of
     }
 
     @POST
-    public Response addComment(CommentDto commentDto) {
+    public Response addComment(@Valid CommentDto commentDto) {
         logger.info("Try to add comment: " + commentDto.getContent());
         Comment comment = mapper.toOneComment(commentDto);
         try {
@@ -76,7 +77,7 @@ public Response getComments(@QueryParam("search") String search, @QueryParam("of
 
     @PUT
     @Path("/{id}")
-    public Response updateComment(@PathParam("id") Long id, CommentDto commentDto) {
+    public Response updateComment(@PathParam("id") Long id, @Valid CommentDto commentDto) {
         logger.info("Attempting to update comment with ID " + id);
         Comment comment = mapper.toOneComment(commentDto);
         try {

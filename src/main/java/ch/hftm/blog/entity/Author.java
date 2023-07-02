@@ -10,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,9 +25,14 @@ public class Author {
 
     @Id @GeneratedValue
     private Long id;
+    @NotBlank(message = "Name darf nicht leer sein")
     private String name;
+
+    @NotBlank(message = "Vorname darf nicht leer sein")
     private String vorname;
-    private String accountName;
+
+    @NotBlank(message = "AccountName darf nicht leer sein")
+    private String accountName;;
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "authorId")
@@ -36,6 +42,12 @@ public class Author {
         this.name = name;
         this.vorname = vorname;
         this.accountName = accountName;
+    }
+
+    @Override
+    public String toString() {
+        return "Author [id=" + id + ", name=" + name + ", vorname=" + vorname + ", accountName=" + accountName
+                + ", entrys=" + entrys + "]";
     }
 
 
