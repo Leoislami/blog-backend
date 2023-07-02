@@ -12,6 +12,7 @@ Currently, at HFTM in Grenchen, I am attending the Distributed Systems course, w
   <summary><strong>Table of Contents</strong></summary>
   <ol>
     <li><a href="#Introduction">Introduction</a></li>
+    <li><a href="#Setup Instructions">Setup Instructions</a></li>
     <li><a href="#Description of Individual Files">Description of Individual Files</a></li>
     <li><a href="#API Overview">API Overview</a>
       <ul>
@@ -35,9 +36,32 @@ Currently, at HFTM in Grenchen, I am attending the Distributed Systems course, w
  ## Introduction
 
 
-Welcome to this example project for a blog backend service, implemented with Quarkus and RESTEasy Reactive. In this project, I have created a RESTful interface through which blog posts can be managed.
+Welcome to this example project for a blog backend service, implemented with Quarkus and RESTEasy Reactive. The system provides a RESTful interface for managing blog posts. In addition to the latest Java standards and tools, we also use Lombok and Mapstruct to reduce boilerplate code and MySQL for data persistence.
 
-To start the project, you need to clone the repository and navigate to the project folder in the terminal. There, enter the command ./mvnw quarkus:dev to start the service in development mode. If everything is configured correctly, the service should be accessible at http://localhost:8080.
+
+ -------------------------------------------------------------------------------------------------------
+ ## Setup Instructions
+
+Prerequisites:
+
+JDK 17
+Maven
+MySQL
+
+
+Follow these steps to set up and run the project:
+
+Clone the repository to your local machine.
+
+
+Navigate to the project folder in your terminal.
+
+
+Run ./mvnw quarkus:dev to start the service in development mode.
+
+
+Access the service at http://localhost:8080.
+
 
  -------------------------------------------------------------------------------------------------------
  ## DescriDescription of Individual Filesption
@@ -70,50 +94,59 @@ Together, these layers provide a clear structure and separation of responsibilit
 
 # API Overview
 
+Our blog service API is designed to offer an interactive platform for content consumption and creation. Built on standard RESTful principles, it includes endpoints for managing Entries, Authors, and Comments
+
 
 ### Description
-Our blog service API is designed to provide an interactive platform for content consumption and creation. As a guest, one can view blog entries, familiarize themselves with the range of topics, styles, and perspectives available. As an author, one has the ability to create and publish blog entries, providing an opportunity for self-expression and discussion. Additionally, the service offers registration options, allowing visitors to transition into contributing members of the community.
+
+Our API facilitates both reading and creating content. As a guest, you can view blog entries, exploring a wide range of topics, styles, and perspectives. As an author, you gain the ability to create and publish blog entries, fostering self-expression and discussion. The service also includes registration features, enabling visitors to become contributing members of the community.
 
  -------------------------------------------------------------------------------------------------------
 
 ### Entities
 
-The system revolves around three key entities: Entry, Author, and Comment.
+The system revolves around three core entities: Entry, Author, and Comment.
 
-The first entity, 'Entry', is designed to represent a blog post. This entity encapsulates vital information such as title, content, likes, and comments. It effectively encapsulates what a blog post signifies in the digital world.
+**Entry**: 
 
-The second entity is the 'Author'. This entity carries personal details including firstName, lastName, accountName, and crucially, a list of entries that the author has created. This entity establishes a clear relationship between authors and their blog entries, enabling efficient data organization.
+Represents a blog post, encapsulating information like the title, content, likes, and comments.
 
-The third entity is 'Comment'. This allows the users to interact with the blog posts by leaving their opinions, queries or thoughts. Each comment is linked to a specific entry and an author, promoting a clear and organized structure.
+**Author**: 
 
-The blog system, as suggested by its name, functions like a typical blog application, maintaining a clear and coherent connection between these three entities.
+Stores personal details including the first name, last name, account name, and a list of entries created by the author. This entity maps the relationship between authors and their blog entries.
+
+**Comment**: 
+
+Allows users to interact with blog posts by leaving their opinions or thoughts. Each comment is tied to a specific entry and author, establishing a clear structure.
 
  -------------------------------------------------------------------------------------------------------
 
 ### Endpoints
 
-The API defines several endpoints to interact with the system:
+The API defines several endpoints for interacting with the system:
 ```sh
-GET: This fetches all entries, authors, or comments, offering a comprehensive view of the database.
+GET /entries, GET /authors, GET /comments: Fetch all entries, authors, or comments respectively.
 ```
 ```sh
-POST: This method is used to create a new entry, author, or comment, providing an effective way to add content.
+POST /entries, POST /authors, POST /comments: Create a new entry, author, or comment.
 ```
 ```sh
-GET /{id}: This retrieves a specific entry, author, or comment, enabling precise data access.
+GET /entries/{id}, GET /authors/{id}, GET /comments/{id}: Retrieve a specific entry, author, or comment.
 ```
 ```sh
-PUT /{id}: This method is used for updating the attributes of an existing entry, author or comment, thereby ensuring data accuracy and relevance.
+PUT /entries/{id}, PUT /authors/{id}, PUT /comments/{id}: Update an existing entry, author, or comment.
 ```
 ```sh
-DELETE/{id}: This deletes a specific entry, author, or comment, ensuring the integrity and relevancy of the data in the database.
+DELETE /entries/{id}, DELETE /authors/{id}, DELETE /comments/{id}: Delete a specific entry, author, or comment.
 ```
 
-Through these endpoints, the blog system offers an extensive and functional interface for users to read, create, update, and manage content.
+These endpoints allow users to read, create, update, and manage content in a structured and efficient manner.
 
  -------------------------------------------------------------------------------------------------------
 
 ## Access Concept
+
+Our system uses role-based access control. There are three types of roles: Guest, User, and Admin. Each role has different permissions
 
 ### General
 

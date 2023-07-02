@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-
+import org.jboss.logging.Logger;
 import ch.hftm.blog.control.AuthorService;
 import ch.hftm.blog.entity.Author;
 import io.quarkus.test.junit.QuarkusTest;
@@ -20,6 +20,9 @@ public class AuthorServiceTest {
     
     @Inject
     AuthorService authorService;
+    
+    @Inject
+    Logger logger;
 
     @Test
     @Transactional
@@ -31,12 +34,14 @@ public class AuthorServiceTest {
 
         // Act
         authorsBefore = authorService.getAuthors().size();
+        logger.infof("Before adding, there are " + authorsBefore + " authors.");
         authorService.addAuthor(author);
         authors = authorService.getAuthors();
 
         // Assert
         assertEquals(authorsBefore + 1, authors.size());
         assertEquals(author.getId(), authors.get(authors.size()-1).getId());
+        logger.infof("After adding, there are" + authors.size() + " authors.");
     }
 
     @Test
@@ -44,6 +49,7 @@ public class AuthorServiceTest {
         // Arrange
         Author author = new Author("Max", "Mustermann", "maxm");
         authorService.addAuthor(author);
+        logger.infof("Added author with id {}.", author.getId());
 
         // Act
         Author retrievedAuthor = authorService.getAuthor(author.getId());
@@ -53,6 +59,7 @@ public class AuthorServiceTest {
         assertEquals(author.getName(), retrievedAuthor.getName());
         assertEquals(author.getVorname(), retrievedAuthor.getVorname());
         assertEquals(author.getAccountName(), retrievedAuthor.getAccountName());
+        logger.infof("Retrieved author with id." + retrievedAuthor.getId());
     }
 
     @Test
@@ -69,6 +76,7 @@ public class AuthorServiceTest {
 
         // Assert
         assertEquals("Jane", updatedAuthor.getName());
+        logger.infof("Updated author with id. " + updatedAuthor.getId() + " New name is " + updatedAuthor.getName());
     }
 
     @Test
@@ -90,8 +98,8 @@ public class AuthorServiceTest {
         assertNotNull(beforeAuthordeletedId);
         assertEquals(beforeAuthordeletedId.getId(), author.getId());
         assertEquals(authorsBefore - 1, authorsAfter.size());
+        logger.infof("Deleted author with id." + beforeAuthordeletedId.getId() + "Before deletion, there were " + authorsBefore + "authors. Now, there are " + authorsAfter.size() + " authors.");
     }
-
     @Test
     void findAuthorsTest() {
         // Arrange
@@ -99,9 +107,11 @@ public class AuthorServiceTest {
         Author author2 = new Author("Jane", "Smith", "janes");
         authorService.addAuthor(author1);
         authorService.addAuthor(author2);
+        logger.info("Created authors with ids: {}, {}");
 
         // Act
         List<Author> authors = authorService.findAuthors("John", 0);
+        logger.infof("Found " + authors.size() + " authors with the term 'Second'");
 
         // Assert
         assertTrue(authors.size() >= 1);

@@ -6,6 +6,7 @@ import ch.hftm.blog.dtos.DtoMapper;
 import ch.hftm.blog.entity.Author;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
 
@@ -71,7 +72,7 @@ public class AuthorResource {
     @APIResponses(value = { @APIResponse(responseCode = "200", description = "Successful"),
         @APIResponse(responseCode = "400", description = "Unsuccessful")})
     @POST
-    public Response addAuthor(AuthorDto authorDto) {
+    public Response addAuthor(@Valid AuthorDto authorDto) {
         logger.info("Try to add author with name: " + authorDto.getName());
         Author author = mapper.toOneAuthor(authorDto);
         logger.debug("The new author received the id: " + author.getId());
@@ -96,7 +97,7 @@ public class AuthorResource {
     })
     @PUT
     @Path("/{id}")
-    public Response updateAuthor(@PathParam("id") Long id, AuthorDto authorDto) {
+    public Response updateAuthor(@PathParam("id") Long id, @Valid AuthorDto authorDto) {
         logger.info("Attempting to update author with ID " + id);
         Author author = mapper.toOneAuthor(authorDto);
         try {

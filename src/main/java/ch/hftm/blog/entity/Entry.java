@@ -10,6 +10,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,9 +25,13 @@ public class Entry {
 
     @Id @GeneratedValue
     private Long id;
+    @NotBlank(message = "Title cannot be blank")
+    @Size(min = 3, max = 50, message = "Title must be between 3 and 50 characters")
     private String title;
+
+    @NotBlank(message = "Content cannot be blank")
     private String content;
-    private int likes;
+    private Integer likes;
 
 
     // Constructor
@@ -44,5 +50,14 @@ public class Entry {
     @JoinColumn(name = "entryId")
     public List<Comment> comments = new ArrayList<>();
 
+
+    @Override
+    public String toString() {
+        return "Entry [id=" + id + ", title=" + title + ", content=" + content + ", likes=" + likes + ", author="
+                + author + ", comments=" + comments + "]";
+    }
+
+
+    
 
 }

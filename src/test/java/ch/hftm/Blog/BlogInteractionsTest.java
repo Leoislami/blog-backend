@@ -14,104 +14,132 @@ import ch.hftm.blog.control.EntryService;
 import ch.hftm.blog.entity.Author;
 import ch.hftm.blog.entity.Comment;
 import ch.hftm.blog.entity.Entry;
+import org.jboss.logging.Logger;
 
 @QuarkusTest
 public class BlogInteractionsTest {
 
-    @Inject
-    AuthorService authorService;
-    
-    @Inject
-    CommentService commentService;
-    
-    @Inject
-    EntryService entryService;
+@Inject
+AuthorService authorService;
 
-    @Test
-    void addingEntryAndComment(){
-        // Create Author
-        Author author = new Author("Max", "Mustermann", "Testaccount");
+@Inject
+CommentService commentService;
 
-        // Create Entry
-        Entry entry = new Entry("First Blog", "The content of my first blog");
+@Inject
+EntryService entryService;
 
-        // Create Comment
-        Comment comment = new Comment("My first comment");
+@Inject
+Logger logger;
 
-        // Add Author
-        authorService.addAuthor(author);
+@Test
+void addingEntryAndComment(){
+    // Create Author
+    Author author = new Author("Max", "Mustermann", "Testaccount");
+    logger.info("Created author: " + author.getAccountName());
 
-        // Set Author for Entry
-        entry.setAuthor(author);
-        entryService.addEntry(entry);
+    // Create Entry
+    Entry entry = new Entry("First Blog", "The content of my first blog");
+    logger.info("Created entry: " + entry.getTitle());
 
-        // Set Entry for Comment
-        comment.setEntry(entry);
-        commentService.addComment(comment);
+    // Create Comment
+    Comment comment = new Comment("My first comment");
+    logger.info("Created comment: " + comment.getContent());
 
-        // Get Updated Entry and Comment
-        List<Entry> entries = entryService.getEntrys();
-        Entry addedEntry = entries.get(entries.size() - 1);
+    // Add Author
+    authorService.addAuthor(author);
+    logger.info("Added author: " + author.getAccountName());
 
-        List<Comment> comments = commentService.getComments(0, 200);
-        Comment addedComment = comments.get(comments.size() - 1);
+    // Set Author for Entry
+    entry.setAuthor(author);
+    entryService.addEntry(entry);
+    logger.info("Added entry: " + entry.getTitle() + " by author: " + author.getAccountName());
 
-        // Assert
-        assertEquals(author.getId(), addedEntry.getAuthor().getId());
-        assertEquals(entry.getId(), addedComment.getEntry().getId());
-    }
+    // Set Entry for Comment
+    comment.setEntry(entry);
+    commentService.addComment(comment);
+    logger.info("Added comment: " + comment.getContent() + " to entry: " + entry.getTitle());
 
-        @Test
-        void updateEntry(){
-        // Create Entry
-        Entry entry = new Entry("First Blog", "Initial content");
-        entryService.addEntry(entry);
+    // Get Updated Entry and Comment
+    List<Entry> entries = entryService.getEntrys();
+    Entry addedEntry = entries.get(entries.size() - 1);
+    logger.info("Retrieved added entry: " + addedEntry.getTitle());
 
-        // Update Entry
-        Entry updatedEntry = new Entry("Updated Blog", "Updated content");
-        entryService.updateEntry(entry.getId(), updatedEntry);
+    List<Comment> comments = commentService.getComments(0, 200);
+    Comment addedComment = comments.get(comments.size() - 1);
+    logger.info("Retrieved added comment: " + addedComment.getContent());
 
-        // Get Updated Entry
-        Entry fetchedEntry = entryService.getEntry(entry.getId());
+    // Assert
+    assertEquals(author.getId(), addedEntry.getAuthor().getId());
+    logger.info("Author ID of added entry matches the expected value.");
 
-        // Assert
-        assertEquals(updatedEntry.getTitle(), fetchedEntry.getTitle());
-        assertEquals(updatedEntry.getContent(), fetchedEntry.getContent());
-    }
-            
-        @Test
-        void deleteComment(){
-        // Create Comment
-        Comment comment = new Comment("Test Comment");
-        Long deletedComment = comment.getId();
-        commentService.addComment(comment);
+    assertEquals(entry.getId(), addedComment.getEntry().getId());
+    logger.info("Entry ID of added comment matches the expected value.");
+}
 
-        // Delete Comment
-        commentService.deleteComment(comment.getId());
+@Test
+void updateEntry(){
+    // Create Entry
+    Entry entry = new Entry("First Blog", "Initial content");
+    entryService.addEntry(entry);
+    logger.info("Added entry: " + entry.getTitle());
 
-        // Assert
-        assertNull(deletedComment);
-    }
+    // Update Entry
+    Entry updatedEntry = new Entry("Updated Blog", "Updated content");
+    entryService.updateEntry(entry.getId(), updatedEntry);
+    logger.info("Updated entry with ID: " + entry.getId());
 
-        @Test
-        void searchEntries(){
-        // Create Entries
-        Entry entry1 = new Entry("First Blog", "Content about technology");
-        Entry entry2 = new Entry("Second Blog", "Content about sports");
-        entryService.addEntry(entry1);
-        entryService.addEntry(entry2);
+    // Get Updated Entry
+    Entry fetchedEntry = entryService.getEntry(entry.getId());
+    logger.info("Fetched entry with ID: " + entry.getId());
 
-        // Search Entries
-        String searchQuery = "technology";
-        List<Entry> searchResults = entryService.findEntries(searchQuery, 0);
+    // Assert
+    assertEquals(updatedEntry.getTitle(), fetchedEntry.getTitle());
+    logger.info("Title of fetched entry matches the updated value.");
 
-        // Assert
-        assertTrue(searchResults.size() >= 1);
-        assertEquals(entry1.getTitle(), searchResults.get(0).getTitle());
-        assertTrue(searchResults.get(0).getContent().contains(searchQuery));
-    }
+    assertEquals(updatedEntry.getContent(), fetchedEntry.getContent());
+    logger.info("Content of fetched entry matches the updated value.");
+}
 
+@Test
+void deleteComment(){
+    // Create Comment
+    Comment comment = new Comment("Test Comment");
+    Long deletedComment = comment.getId();
+    commentService.addComment(comment);
+    logger.info("Added comment: " + comment.getContent());
 
+    // Delete Comment
+    commentService.deleteComment(comment.getId());
+    logger.info("Deleted comment with ID: " + comment.getId());
 
+    // Assert
+    assertNull(deletedComment);
+    logger.info("Comment ID is null, indicating successful deletion.");
+}
+
+@Test
+void searchEntries(){
+    // Create Entries
+    Entry entry1 = new Entry("First Blog", "Content about technology");
+    Entry entry2 = new Entry("Second Blog", "Content about sports");
+    entryService.addEntry(entry1);
+    entryService.addEntry(entry2);
+    logger.info("Added entries: " + entry1.getTitle() + ", " + entry2.getTitle());
+
+    // Search Entries
+    String searchQuery = "technology";
+    List<Entry> searchResults = entryService.findEntries(searchQuery, 0);
+    logger.info("Performed search for entries with query: " + searchQuery);
+
+    // Assert
+    assertTrue(searchResults.size() >= 1);
+    logger.info("Search results contain at least one entry.");
+
+    assertEquals(entry1.getTitle(), searchResults.get(0).getTitle());
+    logger.info("Title of the first search result matches the expected value.");
+
+    assertTrue(searchResults.get(0).getContent().contains(searchQuery));
+    logger.info("Content of the first search result contains the search query.");
+}
 
 }

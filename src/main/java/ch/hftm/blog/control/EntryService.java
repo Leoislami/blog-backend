@@ -55,8 +55,30 @@ public class EntryService {
                                             .orElseThrow(() -> new EntryNotFoundException(id));
         entryToUpdate.setTitle(entry.getTitle());
         entryToUpdate.setContent(entry.getContent());
+        entryToUpdate.setLikes(entry.getLikes());
         logger.info("Updated Entry with ID: " + id);
     }
+
+
+    @Transactional
+    public void patchEntry(Long id, Entry patchEntry) {
+        Entry entryToUpdate = entryRepository.findByIdOptional(id)
+                                        .orElseThrow(() -> new EntryNotFoundException(id));
+
+        if (patchEntry.getTitle() != null) {
+            entryToUpdate.setTitle(patchEntry.getTitle());
+    }
+
+        if (patchEntry.getContent() != null) {
+            entryToUpdate.setContent(patchEntry.getContent());
+    }
+    
+        if (patchEntry.getLikes() != null) {
+            entryToUpdate.setLikes(patchEntry.getLikes());
+    }   
+
+        logger.info("Patched Entry with ID: " + id);
+}
 
 
     @Transactional

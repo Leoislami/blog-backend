@@ -2,11 +2,18 @@ package ch.hftm.blog.dtos;
 
 import java.util.List;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class AuthorDto {
     
     private Long id;
+    @NotBlank(message = "Name darf nicht leer sein")
     private String name;
+
+    @NotBlank(message = "Vorname darf nicht leer sein")
     private String vorname;
+
+    @NotBlank(message = "AccountName darf nicht leer sein")
     private String accountName;
     // private List<EntryDto> entrys;
 
@@ -16,6 +23,7 @@ public class AuthorDto {
     // public void setEntrys(List<EntryDto> entrys) {
     //     this.entrys = entrys;
     // }
+    
     public Long getId() {
         return id;
     }
