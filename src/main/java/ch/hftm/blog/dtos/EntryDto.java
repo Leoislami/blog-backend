@@ -4,7 +4,11 @@ import java.util.List;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class EntryDto {
 
     @NotBlank(message = "Title cannot be blank")
@@ -13,7 +17,7 @@ public class EntryDto {
 
     @NotBlank(message = "Content cannot be blank")
     private String content;
-    private Integer likes;
+    private int likes;
     private long id;
     private AuthorDto author;
     private List<CommentDto> comments;

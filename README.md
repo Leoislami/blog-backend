@@ -57,14 +57,14 @@ Clone the repository to your local machine.
 Navigate to the project folder in your terminal.
 
 
-Run ./mvnw quarkus:dev to start the service in development mode.
+Run ```./mvnw quarkus:dev ``` to start the service in development mode.
 
 
 Access the service at http://localhost:8080.
 
 
  -------------------------------------------------------------------------------------------------------
- ## DescriDescription of Individual Filesption
+ ## Description of Individual Filesption
 
  **Boundary**: 
 

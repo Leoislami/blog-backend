@@ -31,7 +31,7 @@ public class Entry {
 
     @NotBlank(message = "Content cannot be blank")
     private String content;
-    private Integer likes;
+    private int likes;
 
 
     // Constructor
