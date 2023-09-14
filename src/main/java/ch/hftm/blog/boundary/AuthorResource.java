@@ -2,6 +2,7 @@ package ch.hftm.blog.boundary;
 
 import ch.hftm.blog.control.AuthorService;
 import ch.hftm.blog.dtos.AuthorDto;
+import ch.hftm.blog.dtos.AuthorDtoPost;
 import ch.hftm.blog.dtos.DtoMapper;
 import ch.hftm.blog.entity.Author;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -72,9 +73,9 @@ public class AuthorResource {
     @APIResponses(value = { @APIResponse(responseCode = "200", description = "Successful"),
         @APIResponse(responseCode = "400", description = "Unsuccessful")})
     @POST
-    public Response addAuthor(@Valid AuthorDto authorDto) {
+    public Response addAuthor(@Valid AuthorDtoPost authorDto) {
         logger.info("Try to add author with name: " + authorDto.getName());
-        Author author = mapper.toOneAuthor(authorDto);
+        Author author = mapper.toOneAuthorPost(authorDto);
         logger.debug("The new author received the id: " + author.getId());
             if (authorDto == null || authorDto.getName() == null || authorDto.getName().isBlank()) {
         return Response.status(Response.Status.BAD_REQUEST).entity("Invalid author data.").build();
@@ -97,9 +98,9 @@ public class AuthorResource {
     })
     @PUT
     @Path("/{id}")
-    public Response updateAuthor(@PathParam("id") Long id, @Valid AuthorDto authorDto) {
+    public Response updateAuthor(@PathParam("id") Long id, @Valid AuthorDtoPost authorDto) {
         logger.info("Attempting to update author with ID " + id);
-        Author author = mapper.toOneAuthor(authorDto);
+        Author author = mapper.toOneAuthorPost(authorDto);
         try {
             authorService.updateAuthor(id, author);
             logger.debug("Author with ID " + id + " successfully updated.");

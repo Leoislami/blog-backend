@@ -32,7 +32,7 @@ public class Author {
     private String vorname;
 
     @NotBlank(message = "AccountName darf nicht leer sein")
-    private String accountName;;
+    private String accountName;
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "authorId")

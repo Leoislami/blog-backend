@@ -8,9 +8,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AuthorDto {
+public class AuthorDtoPost {
     
-    private Long id;
     @NotBlank(message = "Name darf nicht leer sein")
     private String name;
 
@@ -19,8 +18,9 @@ public class AuthorDto {
 
     @NotBlank(message = "AccountName darf nicht leer sein")
     private String accountName;
-    // private List<EntryDto> entrys;
 
+
+    
 }
 
 

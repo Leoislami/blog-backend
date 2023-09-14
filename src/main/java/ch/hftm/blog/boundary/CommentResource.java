@@ -2,6 +2,7 @@ package ch.hftm.blog.boundary;
 
 import ch.hftm.blog.control.CommentService;
 import ch.hftm.blog.dtos.CommentDto;
+import ch.hftm.blog.dtos.CommentDtoPost;
 import ch.hftm.blog.dtos.DtoMapper;
 import ch.hftm.blog.entity.Comment;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -62,9 +63,9 @@ public Response getComments(@QueryParam("search") String search, @QueryParam("of
     }
 
     @POST
-    public Response addComment(@Valid CommentDto commentDto) {
+    public Response addComment(@Valid CommentDtoPost commentDto) {
         logger.info("Try to add comment: " + commentDto.getContent());
-        Comment comment = mapper.toOneComment(commentDto);
+        Comment comment = mapper.toOneCommentPost(commentDto);
         try {
             commentService.addComment(comment);
             logger.debug("Comment " + commentDto.getContent() + " successfully created with id: " + comment.getId());
@@ -77,9 +78,9 @@ public Response getComments(@QueryParam("search") String search, @QueryParam("of
 
     @PUT
     @Path("/{id}")
-    public Response updateComment(@PathParam("id") Long id, @Valid CommentDto commentDto) {
+    public Response updateComment(@PathParam("id") Long id, @Valid CommentDtoPost commentDto) {
         logger.info("Attempting to update comment with ID " + id);
-        Comment comment = mapper.toOneComment(commentDto);
+        Comment comment = mapper.toOneCommentPost(commentDto);
         try {
             commentService.updateComment(id, comment);
             logger.debug("Comment with ID " + id + " successfully updated.");

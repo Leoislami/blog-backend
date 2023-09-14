@@ -21,6 +21,7 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import ch.hftm.blog.control.EntryService;
 import ch.hftm.blog.dtos.DtoMapper;
 import ch.hftm.blog.dtos.EntryDto;
+import ch.hftm.blog.dtos.EntryDtoPost;
 import ch.hftm.blog.entity.Entry;
 
 
@@ -75,25 +76,13 @@ public class EntryResource {
     }
 
 
-//    @Operation(description = "Add Entry", summary = "Add a new entry record")
-//    @APIResponses(value = { @APIResponse(responseCode = "200", description = "Successful Created"),
-//             @APIResponse(responseCode = "400", description = "Unsuccessful") })
-//     @POST
-//     public Response addEntry(Entry entry, @Context UriInfo uriInfo) {
-//         this.entryService.addEntry(entry);
-//         var uri = uriInfo.getAbsolutePathBuilder().path(Long.toString(entry.getId())).build();
-//         return Response.created(uri).build();
-//     }
-
-
-
     @Operation(description = "Add Entry", summary = "Add a new entry record")
     @APIResponses(value = { @APIResponse(responseCode = "200", description = "Successful Created"),
             @APIResponse(responseCode = "400", description = "Unsuccessful") })
     @POST
-    public Response addEntry(@Valid EntryDto entryDto) {
+    public Response addEntry(@Valid EntryDtoPost entryDto) {
         logger.info("Try to add entry with title: " + entryDto.getTitle());
-        Entry entry = mapper.toOneEntry(entryDto);
+        Entry entry = mapper.toOneEntryPost(entryDto);
         logger.debug("The new entry received the id: " + entry.getId());
         try {
             entryService.addEntry(entry);
@@ -112,8 +101,8 @@ public class EntryResource {
     @PUT
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateEntry(@PathParam("id") Long id, @Valid EntryDto entryDto) {
-        Entry entry = mapper.toOneEntry(entryDto);
+    public Response updateEntry(@PathParam("id") Long id, @Valid EntryDtoPost entryDto) {
+        Entry entry = mapper.toOneEntryPost(entryDto);
         try {
             entryService.updateEntry(id, entry);
             return Response.status(Response.Status.OK).entity("Entry updated successfully.").build();
@@ -123,47 +112,47 @@ public class EntryResource {
 }
 
 
-    @Operation(description = "Patch a Entry", summary = "Update specific fields of an entry")
-    @APIResponses(value = { 
-    @APIResponse(responseCode = "200", description = "Successful"),
-    @APIResponse(responseCode = "400", description = "Unsuccessful") 
-})
-    @PATCH
-    @Path("/{id}")
-    public Response patchEntry(@PathParam("id") Long id, EntryDto entryDto) {
-    Entry existingEntry = entryService.getEntry(id);
-        if (existingEntry == null) {
-            return Response.status(Response.Status.NOT_FOUND).entity("Entry with ID " + id + " not found. Failed to update entry.").build();
-    }
+//     @Operation(description = "Patch a Entry", summary = "Update specific fields of an entry")
+//     @APIResponses(value = { 
+//     @APIResponse(responseCode = "200", description = "Successful"),
+//     @APIResponse(responseCode = "400", description = "Unsuccessful") 
+// })
+//     @PATCH
+//     @Path("/{id}")
+//     public Response patchEntry(@PathParam("id") Long id, EntryDtoPost entryDto) {
+//     Entry existingEntry = entryService.getEntry(id);
+//         if (existingEntry == null) {
+//             return Response.status(Response.Status.NOT_FOUND).entity("Entry with ID " + id + " not found. Failed to update entry.").build();
+//     }
     
-        if (entryDto.getTitle() != null) {
-            if (entryDto.getTitle().length() < 3 || entryDto.getTitle().length() > 50) {
-                return Response.status(Response.Status.BAD_REQUEST).entity("Title must be between 3 and 50 characters").build();
-            } else {
-                existingEntry.setTitle(entryDto.getTitle());
-        }
-    }
+//         if (entryDto.getTitle() != null) {
+//             if (entryDto.getTitle().length() < 3 || entryDto.getTitle().length() > 50) {
+//                 return Response.status(Response.Status.BAD_REQUEST).entity("Title must be between 3 and 50 characters").build();
+//             } else {
+//                 existingEntry.setTitle(entryDto.getTitle());
+//         }
+//     }
 
-        if (entryDto.getContent() != null) {
-            if (entryDto.getContent().isBlank()) {
-                return Response.status(Response.Status.BAD_REQUEST).entity("Content cannot be blank").build();
-            } else {
-                existingEntry.setContent(entryDto.getContent());
-        }
-    }
+//         if (entryDto.getContent() != null) {
+//             if (entryDto.getContent().isBlank()) {
+//                 return Response.status(Response.Status.BAD_REQUEST).entity("Content cannot be blank").build();
+//             } else {
+//                 existingEntry.setContent(entryDto.getContent());
+//         }
+//     }
     
-        if (entryDto.getLikes() != 0) {
-            existingEntry.setLikes(entryDto.getLikes());
-        }
+//         if (entryDto.getLikes() != 0) {
+//             existingEntry.setLikes(entryDto.getLikes());
+//         }
 
 
-        try {
-            entryService.updateEntry(id, existingEntry);
-                return Response.status(Response.Status.OK).entity("Entry updated successfully.").build();
-            } catch (Exception e) {
-                return Response.status(Response.Status.NOT_FOUND).entity("Failed to update entry.").build();
-    }
-}
+//         try {
+//             entryService.updateEntry(id, existingEntry);
+//                 return Response.status(Response.Status.OK).entity("Entry updated successfully.").build();
+//             } catch (Exception e) {
+//                 return Response.status(Response.Status.NOT_FOUND).entity("Failed to update entry.").build();
+//     }
+// }
 
 
 
