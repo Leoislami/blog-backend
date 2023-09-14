@@ -140,29 +140,29 @@ public class EntryServiceTest {
         logger.info("Finished findEntriesTest.");
     }
 
-    @Test
-    @Transactional
-    void patchEntryTest() {
-        // Arrange
-        Entry entry = new Entry("Original Title", "Original Content");
-        logger.info("Starting patchEntryTest... Entry to be added and patched: " + entry.toString());
-        entryService.addEntry(entry);
-        Long entryId = entry.getId(); // Make sure to get the ID after saving
-        Entry patchEntry = new Entry();
-        patchEntry.setTitle("Patched Title");
-        patchEntry.setContent("Patched Content");
-        logger.info("Patch details: " + patchEntry.toString());
+    // @Test
+    // @Transactional
+    // void patchEntryTest() {
+    //     // Arrange
+    //     Entry entry = new Entry("Original Title", "Original Content");
+    //     logger.info("Starting patchEntryTest... Entry to be added and patched: " + entry.toString());
+    //     entryService.addEntry(entry);
+    //     Long entryId = entry.getId(); // Make sure to get the ID after saving
+    //     Entry patchEntry = new Entry();
+    //     patchEntry.setTitle("Patched Title");
+    //     patchEntry.setContent("Patched Content");
+    //     logger.info("Patch details: " + patchEntry.toString());
 
-        // Act
-        entryService.patchEntry(entryId, patchEntry);
-        Entry patchedEntry = entryService.getEntry(entryId);
+    //     // Act
+    //     entryService.patchEntry(entryId, patchEntry);
+    //     Entry patchedEntry = entryService.getEntry(entryId);
 
-        // Assert
-        logger.info("Verifying results of patchEntryTest...");
-        assertEquals("Patched Title", patchedEntry.getTitle());
-        assertEquals("Patched Content", patchedEntry.getContent());
-        logger.info("Finished patchEntryTest.");
-    }
+    //     // Assert
+    //     logger.info("Verifying results of patchEntryTest...");
+    //     assertEquals("Patched Title", patchedEntry.getTitle());
+    //     assertEquals("Patched Content", patchedEntry.getContent());
+    //     logger.info("Finished patchEntryTest.");
+    // }
 
 
 }

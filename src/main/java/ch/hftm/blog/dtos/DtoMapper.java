@@ -20,6 +20,8 @@ public interface DtoMapper {
 
     Entry toOneEntry(EntryDto entryDto);
 
+    Entry toOneEntryPost(EntryDtoPost entryDto);
+
     // Author Methoden
     List<AuthorDto> toAllAuthorDto(List<Author> authors);
 
@@ -27,11 +29,15 @@ public interface DtoMapper {
 
     Author toOneAuthor(AuthorDto authorDto);
 
+    Author toOneAuthorPost(AuthorDtoPost authorDto);
+
     // Comment Methoden
     List<CommentDto> toAllCommentDto(List<Comment> comments);
 
     CommentDto toOneCommentDto(Comment comment);
 
     Comment toOneComment(CommentDto commentDto);
+
+    Comment toOneCommentPost(CommentDtoPost commentDto);
 
 }

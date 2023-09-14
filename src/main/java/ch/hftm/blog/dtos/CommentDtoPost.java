@@ -7,14 +7,19 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CommentDto {
-
-    private Long id;
+public class CommentDtoPost {
 
     @NotBlank(message = "Content is required")
     @Size(min = 1, max = 255, message = "Content must be between 1 and 255 characters")
     private String content;
 
-    // private Entry entry;
+
+    public String getContent() {
+        return content;
+    }
+    public void setContent(String content) {
+        this.content = content;
+    }
+
 
 }
