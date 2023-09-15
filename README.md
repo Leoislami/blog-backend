@@ -146,7 +146,14 @@ These endpoints allow users to read, create, update, and manage content in a str
 
 ## Access Concept
 
-Our system uses role-based access control. There are three types of roles: Guest, User, and Admin. Each role has different permissions
+Our system uses role-based access control. There are four types of roles: Guest, User, Author, and Admin. Each role has different permissions.
+
+### Publicly Accessible Methods
+
+```GET /entries:``` Allows fetching all blog entries.
+```GET /authors:``` Allows fetching all authors.
+```GET /comments:``` Allows fetching all comments.
+
 
 ### General
 
@@ -154,11 +161,18 @@ All GET endpoints, excluding sensitive ones such as authentication, are public, 
 
 ### Roles
 
-Three roles are envisioned within the system:
+Four roles are envisioned within the system:
 
-1. Author
-2. User
-3. Admin
+1. ```Guest:``` A guest can access all public endpoints but needs to authenticate to create or modify content.
+2. ```Author:``` An author can create new blog entries and edit or delete their own entries.
+3. ```User:``` A user can add comments to blog entries but cannot create or modify entries.
+4. ```Admin:``` An admin has full access to all endpoints and can edit or delete entries and comments from any user.
+
+### Methods Requiring Login or Specific User Role
+
+- ```POST /entries, PUT /entries/{id}, DELETE /entries/{id}:``` Require the "Author" or "Admin" role.
+- ```POST /comments:``` Requires the "User", "Author", or "Admin" role.
+- ```PUT /authors/{id}, DELETE /authors/{id}:``` Require the "Admin" role.
 
 ## Access Rights
 
@@ -172,8 +186,8 @@ Administrators are granted direct access to all methods, barring delete and patc
 
 Currently, the following users exist, each with their designated role:
 
-1. leonis: Admin, Author, User
-2. alice: Author, Admin
+1. leonis: Admin
+2. alice: Author
 3. jack: User
 
 
