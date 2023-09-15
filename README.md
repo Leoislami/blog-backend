@@ -172,8 +172,8 @@ Administrators are granted direct access to all methods, barring delete and patc
 
 Currently, the following users exist, each with their designated role:
 
-1. leonis: Admin, Author, User
-2. alice: Author, Admin
+1. leonis: Admin
+2. alice: Author
 3. jack: User
 
 
