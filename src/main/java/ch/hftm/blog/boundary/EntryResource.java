@@ -5,6 +5,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
+import jakarta.annotation.security.DenyAll;
 import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -16,6 +17,7 @@ import org.jboss.logging.Logger;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
+import org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import ch.hftm.blog.control.EntryService;
@@ -30,6 +32,8 @@ import ch.hftm.blog.entity.Entry;
 @Tag(name = "Entry Resource")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@DenyAll
+@SecurityRequirement(name = "KeycloakJWT")
 public class EntryResource {
 
     @Inject
@@ -42,6 +46,7 @@ public class EntryResource {
     DtoMapper mapper;
 
 
+    @PermitAll
     @Operation(description = "Get specific entry", summary = "Get specific entry with /id")
     @APIResponses(value = { @APIResponse(responseCode = "204", description = "Successful") })
     @GET
@@ -60,7 +65,7 @@ public class EntryResource {
     }
 
 
-  
+    @PermitAll
     @Operation(description = "Get specific entry", summary = "Get specific entry with /id")
     @APIResponses(value = { @APIResponse(responseCode = "200", description = "Successful"),
         @APIResponse(responseCode = "400", description = "Unsuccessful") })
@@ -76,6 +81,7 @@ public class EntryResource {
     }
 
 
+    @RolesAllowed({"author","admin"})
     @Operation(description = "Add Entry", summary = "Add a new entry record")
     @APIResponses(value = { @APIResponse(responseCode = "200", description = "Successful Created"),
             @APIResponse(responseCode = "400", description = "Unsuccessful") })
@@ -94,7 +100,7 @@ public class EntryResource {
     }
 
 
-
+    @RolesAllowed({"author","admin"})
     @Operation(description = "Put a Entry", summary = "Add or edit one specific entry")
     @APIResponses(value = { @APIResponse(responseCode = "200", description = "Successful"),
     @APIResponse(responseCode = "400", description = "Unsuccessful") })
@@ -156,7 +162,7 @@ public class EntryResource {
 
 
 
-
+    @RolesAllowed({"author","admin"})
     @Operation(description = "Delete a entry", summary = "Delete a specific entry")
     @APIResponse(responseCode = "200", description = "Successful")
     @APIResponse(responseCode = "500", description = "Unsuccessful")
