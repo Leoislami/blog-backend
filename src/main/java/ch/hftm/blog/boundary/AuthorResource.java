@@ -5,21 +5,33 @@ import ch.hftm.blog.dtos.AuthorDto;
 import ch.hftm.blog.dtos.AuthorDtoPost;
 import ch.hftm.blog.dtos.DtoMapper;
 import ch.hftm.blog.entity.Author;
+import io.quarkus.security.Authenticated;
+import jakarta.annotation.security.DenyAll;
+import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
+import org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement;
+import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.jboss.logging.Logger;
 
 import java.util.List;
 
 @ApplicationScoped
 @Path("/authors")
+@Tag(name = "Author Resource")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+@DenyAll
+@SecurityRequirement(name = "KeycloakJWT")
 public class AuthorResource {
 
     @Inject
@@ -31,6 +43,7 @@ public class AuthorResource {
     @Inject
     DtoMapper mapper;
 
+    @Authenticated
     @Operation(description = "Get list of Authors", summary ="Get all or specific author with optional query parameter")
     @APIResponses(value = { @APIResponse(responseCode = "200", description = "Successful"),
         @APIResponse(responseCode = "400", description = "Unsuccessful")})
@@ -51,6 +64,8 @@ public class AuthorResource {
         }
     }
 
+
+    @PermitAll
     @Operation(description = "Get specific author", summary ="Get specific author with /id")
     @APIResponses(value = { @APIResponse(responseCode = "200", description = "Successful"),
         @APIResponse(responseCode = "400", description = "Unsuccessful")})
@@ -68,7 +83,8 @@ public class AuthorResource {
         return Response.status(Response.Status.OK).entity(authorDto).build();
     }
 
-    
+
+    @RolesAllowed({"admin"})
     @Operation(description = "Add Author", summary ="Add a new author record")
     @APIResponses(value = { @APIResponse(responseCode = "200", description = "Successful"),
         @APIResponse(responseCode = "400", description = "Unsuccessful")})
@@ -90,6 +106,7 @@ public class AuthorResource {
         }
     }
 
+    @RolesAllowed({"admin"})
     @Operation(description = "Update an author", summary = "Update a specific author's record")
     @APIResponses(value = {
         @APIResponse(responseCode = "200", description = "Successful update"),
@@ -111,6 +128,8 @@ public class AuthorResource {
         }
     }
 
+    
+    @RolesAllowed({"admin"})
     @Operation(description = "Delete an author", summary ="Delete a specific author")
     @APIResponse(responseCode = "200", description = "Successful")
     @APIResponse(responseCode = "500", description = "Unsuccessful")

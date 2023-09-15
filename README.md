@@ -171,8 +171,8 @@ Four roles are envisioned within the system:
 ### Methods Requiring Login or Specific User Role
 
 - ```POST /entries, PUT /entries/{id}, DELETE /entries/{id}:``` Require the "Author" or "Admin" role.
-- ```POST /comments:``` Requires the "User", "Author", or "Admin" role.
-- ```PUT /authors/{id}, DELETE /authors/{id}:``` Require the "Admin" role.
+- ```POST /comments, PUT /comments/{id}, DELETE /comments/{id}:``` Requires the "User", "Author", or "Admin" role.
+- ```POST /authors, PUT /authors/{id}, DELETE /authors/{id}:``` Require the "Admin" role.
 
 ## Access Rights
 
