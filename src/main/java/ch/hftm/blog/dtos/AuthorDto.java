@@ -1,7 +1,5 @@
 package ch.hftm.blog.dtos;
 
-import java.util.List;
-
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;

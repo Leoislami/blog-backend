@@ -12,7 +12,6 @@ import ch.hftm.blog.repository.CommentRepository;
 import io.quarkus.panache.common.Page;
 
 import java.util.List;
-import java.util.Optional;
 
 @ApplicationScoped
 public class CommentService {
