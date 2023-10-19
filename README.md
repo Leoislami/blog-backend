@@ -36,7 +36,6 @@ Currently, at HFTM in Grenchen, I am attending the Distributed Systems course, w
         <li><a href="#Authentication Setup">Authentication Setup</a></li>
       </ul>
     </li>
-        </li>
        <li><a href="#Deepening Database Connection">Deepening Database Connectionn</a>
       <ul>
         <li><a href="#Configuring and Starting MySQL Database in a Container">Configuring and Starting MySQL Database in a Container</a></li>
