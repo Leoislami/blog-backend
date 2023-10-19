@@ -41,6 +41,17 @@ Currently, at HFTM in Grenchen, I am attending the Distributed Systems course, w
         <li><a href="#Configuring and Starting MySQL Database in a Container">Configuring and Starting MySQL Database in a Container</a></li>
       </ul>
     </li>
+    <li><a href="#Quarkus Deep Dive">Quarkus Deep Dive</a>
+      <ul>
+        <li><a href="#Native Image Creation">Native Image Creation</a></li>
+        <ul>
+          <li><a href="#Compile and Package the Application">Compile and Package the Application</a></li>
+          <li><a href="#Running the Native Docker Image">Running the Native Docker Image</a></li>
+          <li><a href="#Pushing the Native Docker Image to GitHub Packages">Pushing the Native Docker Image to GitHub Packages</a></li>
+          <li><a href="#Benefits of Native Images">Benefits of Native Images</a></li>
+        </ul>
+      </ul>
+    </li>
   </ol>
 </details>
 
@@ -336,6 +347,87 @@ show tables;
 
 #### Integrating MySQL with Quarkus
 
-To enable Quarkus to communicate with the MySQL container, add the quarkus-jdbc-mysql as a dependency to your project.
+To enable Quarkus to communicate with the MySQL container, you first need to add the 
+`quarkus-jdbc-mysql`
+ dependency to your project. This can be done by adding the following line to your `pom.xml` file:
+```sh
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-jdbc-mysql</artifactId>
+    </dependency>
+```
 
-Now, your Quarkus project can be connected to your MySQL container in Dev mode, enabling a seamless development experience with instant feedback on changes made to the database.
+After adding the dependency, you'll need to configure the 
+`application.properties` file to specify the connection details for the MySQL container. 
+Add or update the following lines:
+
+```sh
+  quarkus.hibernate-orm.database.generation=update
+  quarkus.datasource.db-kind=mysql
+  %dev.quarkus.datasource.jdbc.url=jdbc:mysql://localhost:3306/blogdb
+  %prod.quarkus.datasource.jdbc.url=jdbc:mysql://blog-mysql:3306/blogdb
+  quarkus.datasource.username=dbuser
+  quarkus.datasource.password=dbuser
+```
+
+With these configurations in place, this Quarkus project can now connect to the MySQL container in Dev mode, offering a seamless development experience with instant feedback on changes made to the database.
+
+ -------------------------------------------------------------------------------------------------------
+
+## Quarkus Deep Dive
+
+
+### Native Image Creation
+
+Quarkus offers the ability to compile applications into native executables, resulting in faster startup times and reduced memory footprint compared to traditional JVM-based applications. This is achieved using GraalVM's Ahead-of-Time (AOT) compilation.
+
+Creating a Native Docker Image
+To create a native Docker image for your application, follow the steps below:
+
+#### Compile and Package the Application:
+
+- Use the following command to compile your application into a native executable and package it into a Docker image:
+
+```sh
+./mvnw package -Pnative -Dquarkus.native.container-build=true -Dquarkus.container-image.build=true -Dquarkus.container-image.name=blogbackend-native-image
+```
+
+#### Running the Native Docker Image:
+
+- Once the image is created, you can run it using:
+
+```sh
+docker run -p 8080:8080 blogbackend-native-image:0.1
+```
+
+#### Pushing the Native Docker Image to GitHub Packages:
+
+- Log in to the GitHub Container Registry:
+
+```sh
+docker login ghcr.io -u Leoislami
+```
+Insert the copied token as a password.
+Push the image with:
+
+- Push the Image:
+
+```sh
+docker push ghcr.io/leoislami/blogbackend-native-image:0.1
+
+```
+
+#### Benefits of Native Images
+- `Fast Startup:` 
+Native images start almost instantly, making them ideal for serverless applications and other scenarios where rapid startup is essential.
+
+- `Reduced Memory Footprint:` 
+Consumes significantly less memory compared to traditional JVM-based applications.
+
+- `Smaller Image Size:` 
+Without the need for a JVM, the Docker image size is reduced, leading to faster deployment times.
+
+
+For more in-depth information on Quarkus and native images, refer to the official Quarkus guide on building native images.
+
+ -------------------------------------------------------------------------------------------------------

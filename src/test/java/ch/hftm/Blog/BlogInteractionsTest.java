@@ -8,6 +8,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import ch.hftm.blog.control.AuthorService;
 import ch.hftm.blog.control.CommentService;
 import ch.hftm.blog.control.EntryService;
@@ -32,6 +33,7 @@ EntryService entryService;
 Logger logger;
 
 @Test
+@Transactional
 void addingEntryAndComment(){
     // Create Author
     Author author = new Author("Max", "Mustermann", "Testaccount");
@@ -77,6 +79,7 @@ void addingEntryAndComment(){
 }
 
 @Test
+@Transactional
 void updateEntry(){
     // Create Entry
     Entry entry = new Entry("First Blog", "Initial content");
@@ -101,6 +104,7 @@ void updateEntry(){
 }
 
 @Test
+@Transactional
 void deleteComment(){
     // Create Comment
     Comment comment = new Comment("Test Comment");
