@@ -29,6 +29,19 @@ Currently, at HFTM in Grenchen, I am attending the Distributed Systems course, w
         <li><a href="#Users">Users</a></li>
       </ul>
     </li>
+       <li><a href="#Quarkus and Containerization">Quarkus and Containerization</a>
+      <ul>
+        <li><a href="#Creating and Pushing Image to GitHub">Creating and Pushing Image to GitHub</a></li>
+        <li><a href="#Starting the Service">Starting the Service</a></li>
+        <li><a href="#Authentication Setup">Authentication Setup</a></li>
+      </ul>
+    </li>
+        </li>
+       <li><a href="#Deepening Database Connection">Deepening Database Connectionn</a>
+      <ul>
+        <li><a href="#Configuring and Starting MySQL Database in a Container">Configuring and Starting MySQL Database in a Container</a></li>
+      </ul>
+    </li>
   </ol>
 </details>
 
@@ -148,12 +161,15 @@ These endpoints allow users to read, create, update, and manage content in a str
 
 Our system uses role-based access control. There are four types of roles: Guest, User, Author, and Admin. Each role has different permissions.
 
+ -------------------------------------------------------------------------------------------------------
+
 ### Publicly Accessible Methods
 
 ```GET /entries:``` Allows fetching all blog entries.
 ```GET /authors:``` Allows fetching all authors.
 ```GET /comments:``` Allows fetching all comments.
 
+ -------------------------------------------------------------------------------------------------------
 
 ### General
 
@@ -186,8 +202,8 @@ Administrators are granted direct access to all methods, barring delete and patc
 
 Currently, the following users exist, each with their designated role:
 
-1. leonis: Admin
-2. alice: Author
+1. leonis: Admin, Author, User
+2. alice: Author, User
 3. jack: User
 
 
@@ -195,3 +211,132 @@ The users' interaction with the system and the actions they can perform are regu
 
 
  -------------------------------------------------------------------------------------------------------
+
+## Quarkus and Containerization
+
+### Creating and Pushing Image to GitHub
+
+Set up a blog network using the following command:
+
+```sh
+docker network create blog-nw
+```
+
+
+Generate a Container IMAGE.
+
+Execute the following command:
+
+```sh
+./mvnw package
+```
+
+Build the Docker image using the following command:
+```sh
+docker build -f .\src\main\docker\Dockerfile.jvm -t ghcr.io/leoislami/blog-backend:latest .
+```
+
+Run the Docker container and add it to the blog-nw network with:
+
+```sh
+docker run --name blog-backend -p 8080:8080 --network blog-nw blog-backend
+```
+
+Push the Docker Image to GitHub!
+
+Generate a token in GitHub under github.com > Settings > Developer Settings > Personal Access Tokens.
+
+Log in to the registry as follows:
+
+```sh
+docker login ghcr.io -u Leoislami
+```
+
+Insert the copied token as a password.
+Push the image with:
+
+```sh
+docker push ghcr.io/leoislami/blog-backend:latest 
+```
+ -------------------------------------------------------------------------------------------------------
+
+### Starting the Service
+Pull the image:
+
+```sh
+docker pull ghcr.io/leoislami/blog-backend:latest 
+```
+
+Run the image using docker-compose in the project directory.
+
+```sh
+docker-compose -f docker-compose.yaml up
+```
+
+A Docker network named blog-nw will be set up, running the Keycloak and the database containers with MySQL within it.
+
+ -------------------------------------------------------------------------------------------------------
+
+### Authentication Setup
+Retrieve a token from Keycloak where the Access Token URL is:
+
+```sh
+https://app.please-open.it/auth/realms/1d2633a1-982e-4e31-a05b-ec8ff48fe146/protocol/openid-connect/token
+```
+
+The client secret, client id, username, password, and grant type are as follows:
+
+```sh
+Client Secret: Z5ZkDDci5mocnX6olY2bWy5wkXWWRMay
+Client ID: backend-service
+Username: leonis
+Password: leonis
+Grant Type: password
+```
+
+Swagger UI can now be accessed at:
+
+```sh
+http://localhost:8080/q/swagger-ui/#/
+```
+
+Insert the generated Leonis-Token in the Authentication and perform some requests.
+
+ -------------------------------------------------------------------------------------------------------
+
+## Deepening Database Connection
+
+### Configuring and Starting MySQL Database in a Container
+
+To simulate and test the database configuration accurately, the MySQL database will be initiated locally using a container. This strategy will also be applied when the database is eventually hosted in the cloud.
+
+Since Quarkus will be running in a container as well, it is crucial to ensure that all containers are operating within the same network. If it isnt created allready till now, then the following command creates the necessary network, `blog-nw`:
+
+```sh
+docker network create blog-nw
+```
+
+To initiate the first MySQL container within this network, execute the following command:
+
+```sh
+docker run --name blog-mysql -p 3306:3306 --network blog-nw -e MYSQL_ROOT_PASSWORD=vs4tw -e MYSQL_USER=dbuser -e MYSQL_PASSWORD=dbuser -e MYSQL_DATABASE=blogdb -d mysql:8.0
+```
+
+Accessing SQL Environment of the Container:
+
+
+Execute the following commands to access the SQL environment of the container:
+
+```sh
+docker exec -it blog-mysql bash
+mysql -u dbuser -p
+show databases;
+use blogdb
+show tables;
+```
+
+#### Integrating MySQL with Quarkus
+
+To enable Quarkus to communicate with the MySQL container, add the quarkus-jdbc-mysql as a dependency to your project.
+
+Now, your Quarkus project can be connected to your MySQL container in Dev mode, enabling a seamless development experience with instant feedback on changes made to the database.

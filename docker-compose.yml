@@ -1,0 +1,50 @@
+version: "3.9"
+services:
+  blog-backend:
+    image: "ghcr.io/leoislami/blog-backend:latest"
+   # environment:
+     # QUARKUS_OIDC_AUTH: http://keycloak:8180/realms/blog
+    networks:
+      - blognw
+#    depends_on:
+#      - keycloak
+    ports:
+      - "8080:8080"
+
+
+  blog-mysql:
+    image: mysql:8.0
+    networks:
+    - blognw
+    ports:
+    - "3306:3306"
+    volumes:
+    - ./blog-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: vs4tw 
+      MYSQL_USER: dbuser
+      MYSQL_PASSWORD: dbuser
+      MYSQL_DATABASE: blogdb
+
+
+#  keycloak:
+#    container_name: compose_keycloak
+#    image: "quay.io/keycloak/keycloak:17.0.1"
+#    ports:
+#      - "8180:8180"
+#    entrypoint: [ "/opt/keycloak/bin/kc.sh", "start-dev" ]
+#    volumes:
+#      - ./themes/sometheme/:/opt/keycloak/themes/sometheme/
+#    environment:
+#      KEYCLOAK_ADMIN: "admin"
+#      KEYCLOAK_ADMIN_PASSWORD: "admin"
+#      KC_PROXY: edge
+#      KC_HOSTNAME: compose_keycloak
+##    environment:
+##      - KEYCLOAK_IMPORT=/opt/jboss/keycloak/imports/my-realm.json
+#    networks:
+#      - blognet
+
+networks:
+  blognw:
+    driver: bridge
