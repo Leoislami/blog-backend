@@ -1,3 +1,39 @@
+-- Entry
+DROP TABLE IF EXISTS `Entry`;
+
+CREATE TABLE `Entry` (
+  `id` bigint NOT NULL,
+  `content` varchar(255) DEFAULT NULL,
+  `likes` int NOT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `author_id` bigint DEFAULT NULL,
+  `authorId` bigint DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKi7lp5elvikuvegots1l5nyfc6` (`author_id`),
+  KEY `FK7qcv1yetvhpdfjnxjf3kweleb` (`authorId`),
+  CONSTRAINT `FK7qcv1yetvhpdfjnxjf3kweleb` FOREIGN KEY (`authorId`) REFERENCES `Author` (`id`),
+  CONSTRAINT `FKi7lp5elvikuvegots1l5nyfc6` FOREIGN KEY (`author_id`) REFERENCES `Author` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+LOCK TABLES `Entry` WRITE;
+
+INSERT INTO `Entry` VALUES (151,'X MEN',0,'Halli Hallo',NULL,NULL);
+
+UNLOCK TABLES;
+
+DROP TABLE IF EXISTS `Entry_SEQ`;
+
+CREATE TABLE `Entry_SEQ` (
+  `next_val` bigint DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+LOCK TABLES `Entry_SEQ` WRITE;
+
+INSERT INTO `Entry_SEQ` VALUES (201),(201);
+
+UNLOCK TABLES;
+
+
 -- Author
 DROP TABLE IF EXISTS `Author`;
 
@@ -62,37 +98,3 @@ UNLOCK TABLES;
 
 
 
--- Entry
-DROP TABLE IF EXISTS `Entry`;
-
-CREATE TABLE `Entry` (
-  `id` bigint NOT NULL,
-  `content` varchar(255) DEFAULT NULL,
-  `likes` int NOT NULL,
-  `title` varchar(255) DEFAULT NULL,
-  `author_id` bigint DEFAULT NULL,
-  `authorId` bigint DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FKi7lp5elvikuvegots1l5nyfc6` (`author_id`),
-  KEY `FK7qcv1yetvhpdfjnxjf3kweleb` (`authorId`),
-  CONSTRAINT `FK7qcv1yetvhpdfjnxjf3kweleb` FOREIGN KEY (`authorId`) REFERENCES `Author` (`id`),
-  CONSTRAINT `FKi7lp5elvikuvegots1l5nyfc6` FOREIGN KEY (`author_id`) REFERENCES `Author` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
-LOCK TABLES `Entry` WRITE;
-
-INSERT INTO `Entry` VALUES (151,'X MEN',0,'Halli Hallo',NULL,NULL);
-
-UNLOCK TABLES;
-
-DROP TABLE IF EXISTS `Entry_SEQ`;
-
-CREATE TABLE `Entry_SEQ` (
-  `next_val` bigint DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
-LOCK TABLES `Entry_SEQ` WRITE;
-
-INSERT INTO `Entry_SEQ` VALUES (201),(201);
-
-UNLOCK TABLES;
