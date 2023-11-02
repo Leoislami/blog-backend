@@ -1,3 +1,33 @@
+-- Author
+DROP TABLE IF EXISTS `Author`;
+
+CREATE TABLE `Author` (
+  `id` bigint NOT NULL,
+  `accountName` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `vorname` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+LOCK TABLES `Author` WRITE;
+
+INSERT INTO `Author` VALUES (1,'islamaj','hallo','test');
+
+UNLOCK TABLES;
+
+
+DROP TABLE IF EXISTS `Author_SEQ`;
+
+CREATE TABLE `Author_SEQ` (
+  `next_val` bigint DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+LOCK TABLES `Author_SEQ` WRITE;
+
+INSERT INTO `Author_SEQ` VALUES (51),(51);
+
+UNLOCK TABLES;
+
 -- Entry
 DROP TABLE IF EXISTS `Entry`;
 
@@ -32,38 +62,6 @@ LOCK TABLES `Entry_SEQ` WRITE;
 INSERT INTO `Entry_SEQ` VALUES (201),(201);
 
 UNLOCK TABLES;
-
-
--- Author
-DROP TABLE IF EXISTS `Author`;
-
-CREATE TABLE `Author` (
-  `id` bigint NOT NULL,
-  `accountName` varchar(255) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `vorname` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
-LOCK TABLES `Author` WRITE;
-
-INSERT INTO `Author` VALUES (1,'islamaj','hallo','test');
-
-UNLOCK TABLES;
-
-
-DROP TABLE IF EXISTS `Author_SEQ`;
-
-CREATE TABLE `Author_SEQ` (
-  `next_val` bigint DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
-LOCK TABLES `Author_SEQ` WRITE;
-
-INSERT INTO `Author_SEQ` VALUES (51),(51);
-
-UNLOCK TABLES;
-
 
 
 -- Comment
